@@ -1,3 +1,4 @@
+import javax.print.DocFlavor;
 import java.util.Scanner;
 
 
@@ -99,6 +100,26 @@ public class Main {
     }
 
 
+    // Đảo ngược chuỗi
+    public static String reverseString(String str) {
+        // cách 1 dùng for duyệt tuwf ký tự cuối đi lên đầu
+        if (str == null) return null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = str.length () - 1; i >= 0 ; i--) {
+            System.out.print(str.charAt(i));
+            char c = str.charAt(i);
+            sb.append(c);
+        }
+        return sb.toString;
+
+
+
+        // cách 2: dùng hàm reverse c s trong String
+
+        //return  new StringBuilder(str).reverse().toString();
+    }
+
+
     // Bài 5: In chữ cái đầu của mỗi chuỗi
     public static void inChuCaiDau(){
         Scanner sc = new Scanner(System.in);
@@ -160,7 +181,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(Sring[] args) {
         // Chạy thử với các ví dụ bài 1
         System.out.println("Chuỗi sau khi xóa nguyên âm là: " + xoaNguyenAm("Cybersoft"));
         System.out.println("Chuỗi sau khi xóa nguyên âm là: " + xoaNguyenAm("hello"));
@@ -182,6 +203,10 @@ public class Main {
         // chạy thử bài 4
 
         demSoTu();
+
+        //chay thử bài đảo ngược
+        string daoNguoc1 = "Hello";
+        System.out.println(reverseString(daoNguoc1));
 
         // chạy thử bài 5
         inChuCaiDau();
