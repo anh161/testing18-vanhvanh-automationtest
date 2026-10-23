@@ -1,5 +1,8 @@
 import javax.print.DocFlavor;
 import java.util.Scanner;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.Arrays;
 
 
 public class Main {
@@ -73,8 +76,7 @@ public class Main {
             for (int i = 0 ; i <= n; i+=2){
                 sum += i;
             }
-            System.out.println("Tổng các số chn từ 0 đến " + n + " là " + sum);
-
+            System.out.println("Tổng các số chẵn từ 0 đến " + n + " là " + sum);
         }
     }
 
@@ -100,24 +102,7 @@ public class Main {
     }
 
 
-    // Đảo ngược chuỗi
-    public static String reverseString(String str) {
-        // cách 1 dùng for duyệt tuwf ký tự cuối đi lên đầu
-        if (str == null) return null;
-        StringBuilder sb = new StringBuilder();
-        for (int i = str.length () - 1; i >= 0 ; i--) {
-            System.out.print(str.charAt(i));
-            char c = str.charAt(i);
-            sb.append(c);
-        }
-        return sb.toString;
 
-
-
-        // cách 2: dùng hàm reverse c s trong String
-
-        //return  new StringBuilder(str).reverse().toString();
-    }
 
 
     // Bài 5: In chữ cái đầu của mỗi chuỗi
@@ -179,9 +164,163 @@ public class Main {
 
 
 
+    // Bài 2 - Cấp độ 2
+    public static boolean kiemTraChuoiDoiXung(String str) {
+        if (str == null) {
+            return false;
+        }
+
+        int left = 0;
+        int right = str.length() - 1;
+
+        // Dùng 2 con trỏ dịch chuyển từ 2 đầu vào giữa chuỗi
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false; // Nếu có ký tự không khớp -> không phải đối xứng
+            }
+            left++;
+            right--;
+        }
+        return true; // Duyệt hết mà khớp hết -> là chuỗi đối xứng
+    }
 
 
-    public static void main(Sring[] args) {
+    //Bài 3 - cấp độ 2
+    public static String xoaKyTuLapLai(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        // Sử dụng LinkedHashSet để loại bỏ trùng lặp và giữ nguyên thứ tự
+        Set<Character> charSet = new LinkedHashSet<>();
+        for (int i = 0; i < str.length(); i++) {
+            charSet.add(str.charAt(i));
+        }
+
+        // Dùng StringBuilder để gom các ký tự lại thành chuỗi kết quả
+        StringBuilder result = new StringBuilder();
+        for (Character ch : charSet) {
+            result.append(ch);
+        }
+
+        return result.toString();
+    }
+
+
+    //Bài 1 - cấp độ 3
+    public static int[] twoSum(int[] numbers, int target) {
+        int left = 0;
+        int right = numbers.length - 1;
+
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+
+            if (sum == target) {
+                // Đề bài yêu cầu trả về index bắt đầu từ 1 nên ta +1 cho mỗi vị trí
+                return new int[] { left + 1, right + 1 };
+            } else if (sum < target) {
+                left++;  // Tổng nhỏ hơn target thì tăng con trỏ trái
+            } else {
+                right--; // Tổng lớn hơn target thì giảm con trỏ phải
+            }
+        }
+
+        return new int[] {}; // Trường hợp không tìm thấy (theo đề luôn có nên không tới đây)
+    }
+
+
+
+    // bài 2 - cấp độ 3
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+
+        int start = 0;
+        int end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            // Trường hợp 1: Tâm là 1 ký tự (độ dài lẻ, ví dụ: "aba")
+            int len1 = expandAroundCenter(s, i, i);
+            // Trường hợp 2: Tâm nằm giữa 2 ký tự (độ dài chẵn, ví dụ: "abba")
+            int len2 = expandAroundCenter(s, i, i + 1);
+
+            // Lấy độ dài lớn nhất từ 2 trường hợp trên
+            int maxLen = Math.max(len1, len2);
+
+            // Nếu tìm thấy chuỗi con đối xứng dài hơn chuỗi trước đó, cập nhật lại vị trí
+            if (maxLen > (end - start)) {
+                start = i - (maxLen - 1) / 2;
+                end = i + maxLen / 2;
+            }
+        }
+
+        // Cắt và trả về chuỗi con đối xứng dài nhất
+        return s.substring(start, end + 1);
+    }
+
+    // Hàm phụ trợ: Tìm độ dài chuỗi đối xứng
+    private static int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        // Trả về độ dài của chuỗi đối xứng tìm được
+        return right - left - 1;
+    }
+
+
+    // Bài 3 - câ 3
+    public static String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() < t.length()) {
+            return "";
+        }
+
+        // Bảng đếm tần suất ký tự của chuỗi t
+        int[] targetMap = new int[128];
+        for (char c : t.toCharArray()) {
+            targetMap[c]++;
+        }
+
+        int left = 0, right = 0;
+        int requiredType = t.length(); // Tổng số ký tự cần thỏa mãn
+        int minLen = Integer.MAX_VALUE;
+        int startIndex = 0;
+
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            // Nếu ký tự này có trong t thì giảm số lượng cần tìm
+            if (targetMap[rightChar] > 0) {
+                requiredType--;
+            }
+            targetMap[rightChar]--;
+            right++;
+
+            // Khi đã gom đủ tất cả ký tự của t trong cửa sổ [left, right]
+            while (requiredType == 0) {
+                // Cập nhật lại chuỗi con ngắn nhất
+                if (right - left < minLen) {
+                    minLen = right - left;
+                    startIndex = left;
+                }
+
+                // Thu hẹp cửa sổ từ bên trái
+                char leftChar = s.charAt(left);
+                targetMap[leftChar]++;
+                if (targetMap[leftChar] > 0) {
+                    requiredType++;
+                }
+                left++;
+            }
+        }
+
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(startIndex, startIndex + minLen);
+    }
+
+
+
+
+    public static void main(String[] args) {
         // Chạy thử với các ví dụ bài 1
         System.out.println("Chuỗi sau khi xóa nguyên âm là: " + xoaNguyenAm("Cybersoft"));
         System.out.println("Chuỗi sau khi xóa nguyên âm là: " + xoaNguyenAm("hello"));
@@ -204,18 +343,64 @@ public class Main {
 
         demSoTu();
 
-        //chay thử bài đảo ngược
-        string daoNguoc1 = "Hello";
-        System.out.println(reverseString(daoNguoc1));
 
         // chạy thử bài 5
         inChuCaiDau();
 
 
-        // chạy thử bài 1 - câ 2
+        // chạy thử bài 1 - cấp 2
         float soThuNhap = 50.5f;
         tinhTienThueTNCN(soThuNhap);
 
+
+        // chạy thử bài 2 - cấp 2
+        System.out.println("Input: \"madam\"");
+        System.out.println("Output: " + kiemTraChuoiDoiXung("madam")); // Kết quả: true
+
+        System.out.println("-----------------------------------");
+
+        System.out.println("Input: \"hello\"");
+        System.out.println("Output: " + kiemTraChuoiDoiXung("hello")); // Kết quả: false
+
+
+        //Chạy thử bài 3 - cấp 2
+        System.out.println("Input: \"programming\"");
+        System.out.println("Output: \"" + xoaKyTuLapLai("programming") + "\""); // Kết quả: "progamin"
+
+        System.out.println("-----------------------------------");
+
+        System.out.println("Input: \"abca\"");
+        System.out.println("Output: \"" + xoaKyTuLapLai("abca") + "\""); // Kết quả: "abc"
+
+
+        // chạy thử bài 1 - cấp 3
+        int[] numbers = {2, 7, 11, 15};
+        int target = 9;
+
+        int[] result1 = twoSum(numbers, target);
+
+        System.out.println("Input: numbers = " + Arrays.toString(numbers) + ", target = " + target);
+        System.out.println("Output: " + Arrays.toString(result1)); // Kết quả: [1, 2]
+
+
+
+        // Chạy thử bài 2 - cấp 3
+        String input = "babad";
+        String result2 = longestPalindrome(input);
+
+        System.out.println("Input: \"" + input + "\"");
+        System.out.println("Output: \"" + result2 + "\" ");
+
+
+
+        //chạy thử bài 3 - cấp 3
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+
+        String result3 = minWindow(s, t);
+
+        System.out.println("Input: s = \"" + s + "\", t = \"" + t + "\"");
+        System.out.println("Output: \"" + result3 + "\""); // Kết quả: "BANC"
 
     }
 }

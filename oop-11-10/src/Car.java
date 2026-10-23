@@ -1,6 +1,22 @@
 public class Car extends Vehicle {
-    int seat;
-    String fuleType;
+   private int seat;
+    private String fuleType;
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
+    public String getFuleType() {
+        return fuleType;
+    }
+
+    public void setFuleType(String fuleType) {
+        this.fuleType = fuleType;
+    }
 
     public Car(){
         super(); // Kees thuwfa hamf khowir tajo khoong tham soos cura class cha

@@ -79,13 +79,12 @@ public class Main {
         } else  {
             System.out.println("so" + number + " khong la so nguyen to");
         }
+            int number2 = 123;
+            int sum = sumDigits(number2);
+            System.out.println(" tong cac chu so cua " + number2 + "la" + sum);
+
+
+            int[] listNumbers = {5,3,7,1,9,10};
+            // bai 1: in cac so trong mang
     }
-
-   int number2 = 123;
-    int sum = sumDigits(number2);
-    System.out.println(" tong cac chu so cua " + number2 + "la" + sum);
-
-
-    int[] listNumbers = {5,3,7,1,9,10};
-    // bai 1: in cac so trong mang
 }
