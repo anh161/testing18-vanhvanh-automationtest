@@ -22,4 +22,7 @@ public class BasePage {
         this.js = (JavascriptExecutor) driver;
 
     }
+
+    public BasePage() {
+    }
 }

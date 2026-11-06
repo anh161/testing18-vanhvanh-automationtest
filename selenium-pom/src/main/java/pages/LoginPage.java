@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,9 +26,12 @@ public class LoginPage extends  BasePage{
 
     //Step 1: truy cập vào trang page login
     public  void open() {
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-        //ĐỢI CÓ ĐIỀU KIỆN -> ĐỢI CXUAATS HIỆN INPUT
-        wait.until(ExpectedConditions.visibilityOfElementLocated(INPUT_USERNAME));
+        Allure.step("Open login page",() -> {
+            driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+            //ĐỢI CÓ ĐIỀU KIỆN -> ĐỢI CXUAATS HIỆN INPUT
+            wait.until(ExpectedConditions.visibilityOfElementLocated(INPUT_USERNAME));
+        });
+
     }
 
     //Step2 : login
@@ -37,18 +41,29 @@ public class LoginPage extends  BasePage{
     //cách 2: gom các step thành 1 funtion
 
     public void login(String username, String password) throws InterruptedException {
-        WebElement usernameInput = driver.findElement(INPUT_USERNAME);
-        usernameInput.sendKeys(username);
-
-        Thread.sleep(2000);
-
-        WebElement passwordInput = driver.findElement(INPUT_PASSWORD);
-        passwordInput.sendKeys(password);
+        Allure.step("Enter username: " + username, () -> {
+            WebElement usernameInput = driver.findElement(INPUT_USERNAME);
+            usernameInput.sendKeys(username);
+        });
 
 
         Thread.sleep(2000);
-        WebElement loginBtn = driver.findElement(LOGIN_BTN);
-        loginBtn.click();
+
+        Allure.step("Enter password: ", () -> {
+            WebElement passwordInput = driver.findElement(INPUT_PASSWORD);
+            passwordInput.sendKeys(password);
+        });
+
+
+
+
+        Thread.sleep(2000);
+
+        Allure.step("Click login button " , () -> {
+            WebElement loginBtn = driver.findElement(LOGIN_BTN);
+            loginBtn.click();
+        });
+
 
 
         Thread.sleep(10_000);

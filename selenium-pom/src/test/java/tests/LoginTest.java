@@ -1,6 +1,7 @@
 package tests;
 
 import com.google.gson.Gson;
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -9,6 +10,9 @@ import utils.ConfigReader;
 
 import java.io.InputStreamReader;
 
+
+@Epic("Authentication")
+@Feature("Login success")
 
 public class LoginTest extends BaseTest{
 
@@ -34,6 +38,8 @@ public class LoginTest extends BaseTest{
         return dataLogin;
     }
     // buowcs 2 : load data vào test
+
+
     @Test(dataProvider = "loginData")
     public void testLoginData(LoginData data) throws InterruptedException {
         // tạo đối tụowng LoginPage
@@ -46,7 +52,8 @@ public class LoginTest extends BaseTest{
 
     }
 
-
+    @Story("Login success")
+    @Severity(SeverityLevel.CRITICAL)
     @Test(description = "Test login success")
     public void testLoginSuccess() throws InterruptedException {
         //tạo đối tợng LoginPage
